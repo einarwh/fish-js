@@ -9,7 +9,12 @@ let createMapper = (height) => {
   };
 };
 
-export const mirrorShapes = (height, shapes) => {
+export const mirrorShapes = (height, styledShapes) => {
   let mapper = createMapper(height);
-  return shapes.map(s => s.transpose(mapper));
+  let mirroredShapes = styledShapes.map(s => { 
+    console.log("mirroring...");
+    console.log(s);
+    return { style : s.style, shape: s.shape.transpose(mapper) }; 
+  });
+  return mirroredShapes;
 };

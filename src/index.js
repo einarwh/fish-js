@@ -1,6 +1,6 @@
 import { fLetter, hLetter, eLetter, nLetter, dLetter, rLetter, sLetter, oLetter } from "./letter";
 import { george } from "./figure";
-import { fish } from "./fish";
+import { simpleFish } from "./fish";
 import { createPicture } from "./magic";
 import { createBox } from "./box";
 import { createVector } from "./vector";
@@ -21,11 +21,12 @@ function component() {
     let c = createVector(0, 300);
     let box = createBox(a, b, c);
     
-    // let nw = picture;
-    // let ne = turn(turn(flip(picture)));
-    // let sw = turn(turn(picture));
-    // let se = flip(picture);
-    let fPict = createPicture(fLetter());
+    let picture = createPicture(george());
+    let nw = picture;
+    let ne = turn(turn(flip(picture)));
+    let sw = turn(turn(picture));
+    let se = flip(picture);
+    // let fPict = createPicture(fLetter());
     let hPict = createPicture(hLetter());
     let ePict = createPicture(eLetter());
     let nPict = createPicture(nLetter());
@@ -33,12 +34,13 @@ function component() {
     let rPict = createPicture(rLetter());
     let sPict = createPicture(sLetter());
     let oPict = createPicture(oLetter());
-    let fishPict = createPicture(fish());
-    let picture = nonet(hPict, ePict, nPict, dPict, ePict, rPict, sPict, oPict, nPict);
+    let fishPict = createPicture(simpleFish());
+    let henderson = nonet(hPict, ePict, nPict, dPict, ePict, rPict, sPict, oPict, nPict);
+    let georgePict = createPicture(george());
     //let rendering = column(row(hPict, ePict, nPict), row(dPict, ePict, rPict), row(sPict, oPict, nPict))(box);
-    let rendering = squareLimit(3, fishPict)(box);
+    let rendering = side(3, fishPict)(box);
     let mirrored = mirrorShapes(600, rendering);
-    let childElements = mirrored.map(r => r.toSvgElement());
+    let childElements = mirrored.map(r => r.shape.toSvgElement(r.style));
     for (let child of childElements) {
         svgElement.appendChild(child);
     }

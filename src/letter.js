@@ -4,6 +4,26 @@
 import { createPolygon } from "./polygon";
 import { createPoint } from "./point";
 
+let getStrokeWidth = (box) => {
+  let s = Math.max(box.b().len(), box.c().len());
+  return s / 50.0;
+};
+
+let getStyle = (box) => {
+  return {
+    'stroke-width': getStrokeWidth(box),
+    'stroke': "green",
+    'fill': "none"
+  };
+};
+
+let createStyledPolygon = (pts) => {
+  return {
+    styleFn: getStyle,
+    shape: createPolygon(pts)
+  };
+};
+
 export const fLetter = () => {
   let points = 
     [ createPoint(0.30, 0.20)
@@ -16,7 +36,7 @@ export const fLetter = () => {
     , createPoint(0.70, 0.70)
     , createPoint(0.70, 0.80)
     , createPoint(0.30, 0.80) ];
-  return [ createPolygon(points) ];
+  return [ createStyledPolygon(points) ];
 };
 
 export const hLetter = () => {
@@ -33,7 +53,7 @@ export const hLetter = () => {
     , createPoint(0.40, 0.55)
     , createPoint(0.40, 0.80)
     , createPoint(0.30, 0.80) ];
-  return [ createPolygon(points) ];
+  return [ createStyledPolygon(points) ];
 };
 
 export const eLetter = () => {
@@ -50,7 +70,7 @@ export const eLetter = () => {
     , createPoint(0.70, 0.70)
     , createPoint(0.70, 0.80)
     , createPoint(0.30, 0.80) ];
-  return [ createPolygon(points) ];
+  return [ createStyledPolygon(points) ];
 };
 
 export const nLetter = () => {
@@ -65,7 +85,7 @@ export const nLetter = () => {
     , createPoint(0.60, 0.40)
     , createPoint(0.40, 0.80)
     , createPoint(0.30, 0.80) ];
-  return [ createPolygon(points) ];
+  return [ createStyledPolygon(points) ];
 };
 
 export const dLetter = () => {
@@ -84,7 +104,7 @@ export const dLetter = () => {
     , createPoint(0.52, 0.70)
     , createPoint(0.40, 0.70) ];
   let all = [ pts1, pts2 ];
-  return all.map(createPolygon);
+  return all.map(createStyledPolygon);
 };
 
 export const rLetter = () => {
@@ -105,7 +125,7 @@ export const rLetter = () => {
     , createPoint(0.60, 0.70)
     , createPoint(0.40, 0.70) ];
   let all = [ pts1, pts2 ];
-  return all.map(createPolygon);  
+  return all.map(createStyledPolygon);  
 };
 
 export const sLetter = () => {
@@ -122,7 +142,7 @@ export const sLetter = () => {
     , createPoint(0.60, 0.45)
     , createPoint(0.60, 0.30)
     , createPoint(0.30, 0.30) ];
-  return [ createPolygon(points) ];
+  return [ createStyledPolygon(points) ];
 };
 
 export const oLetter = () => {
@@ -137,5 +157,5 @@ export const oLetter = () => {
     , createPoint(0.60, 0.70)
     , createPoint(0.40, 0.70) ];
   let all = [ pts1, pts2 ];
-  return all.map(createPolygon);  
+  return all.map(createStyledPolygon);  
 };

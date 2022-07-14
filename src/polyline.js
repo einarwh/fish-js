@@ -13,13 +13,14 @@ export const createPolyline = (points) => {
       let transposed = points.map(mapper);
       return createPolyline(transposed);
     },
-    toSvgElement: () => {
+    toSvgElement: (style) => {
       const el = createSvgElement("polyline");
       let strPoints = points.map(p => p.toString());
       let pointsStr = strPoints.reduce((prev, curr) => prev + " " + curr, "");
       el.setAttribute("points", pointsStr);
-      el.setAttribute("stroke", "black");
-      el.setAttribute("fill", "none");
+      for (const prop in style) {
+        el.setAttribute(prop, style[prop]);
+      }
       return el;
     }
   });

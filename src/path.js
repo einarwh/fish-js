@@ -38,13 +38,14 @@ export const createPath = (...commands) => {
       let transposed = commands.map(c => c.transpose(mapper));
       return createPath.apply(null, transposed);
     },
-    toSvgElement: () => {
+    toSvgElement: (style) => {
       const el = createSvgElement("path");
       let strs = commands.map(cmd => cmd.toString());
       let d = strs.reduce((prev, curr) => prev + " " + curr, "");
       el.setAttribute("d", d);
-      el.setAttribute("stroke", "black");
-      el.setAttribute("fill", "none");
+      for (const prop in style) {
+        el.setAttribute(prop, style[prop]);
+      }
       return el;
     }
   });

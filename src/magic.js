@@ -13,23 +13,12 @@ let createMapper = (box) => {
   };
 };
 
-let getStrokeWidth = (box) => {
-  let s = Math.max(box.b().len(), box.c().len());
-  return s / 50.0;
-};
-
-let getStyle = (box) => {
-  return {
-    strokeWidth: getStrokeWidth(box),
-    strokeColor: "black"
-  };
-};
-
 export const createPicture = (shapes) => {
   return (box) => {
     let mapper = createMapper(box);
-    let style = getStyle(box);
-    let transposed = shapes.map(s => s.transpose(mapper));
-    return transposed;
+    let styled = shapes.map(s => { 
+      return { style: s.styleFn(box), shape: s.shape.transpose(mapper) };
+    });
+    return styled;
   };
 };

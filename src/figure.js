@@ -4,6 +4,26 @@
 import { createPolyline } from "./polyline";
 import { createPoint } from "./point";
 
+let getStrokeWidth = (box) => {
+  let s = Math.max(box.b().len(), box.c().len());
+  return s / 80.0;
+};
+
+let getStyle = (box) => {
+  return {
+    'stroke-width': getStrokeWidth(box),
+    'stroke': "purple",
+    'fill': "none"
+  };
+};
+
+let createStyledPolyline = (pts) => {
+  return {
+    styleFn: getStyle,
+    shape: createPolyline(pts)
+  };
+};
+
 export const george = () => {
 
   let pts1 = 
@@ -40,5 +60,5 @@ export const george = () => {
   
   let all = [ pts1, pts2, pts3, pts4, pts5 ];
 
-  return all.map(createPolyline);
+  return all.map(createStyledPolyline);
 };
