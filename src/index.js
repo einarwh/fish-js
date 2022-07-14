@@ -1,6 +1,7 @@
 import { fLetter, hLetter, eLetter, nLetter, dLetter, rLetter, sLetter, oLetter } from "./letter";
 import { george } from "./figure";
 import { simpleFish } from "./fish";
+import { fancyFish } from "./fish3";
 import { createPicture } from "./magic";
 import { createBox } from "./box";
 import { createVector } from "./vector";
@@ -35,10 +36,11 @@ function component() {
     let sPict = createPicture(sLetter());
     let oPict = createPicture(oLetter());
     let fishPict = createPicture(simpleFish());
+    let fish3Pict = createPicture(fancyFish());
     let henderson = nonet(hPict, ePict, nPict, dPict, ePict, rPict, sPict, oPict, nPict);
     let georgePict = createPicture(george());
     //let rendering = column(row(hPict, ePict, nPict), row(dPict, ePict, rPict), row(sPict, oPict, nPict))(box);
-    let rendering = side(3, fishPict)(box);
+    let rendering = side(3, fish3Pict)(box);
     let mirrored = mirrorShapes(600, rendering);
     let childElements = mirrored.map(r => r.shape.toSvgElement(r.style));
     for (let child of childElements) {
