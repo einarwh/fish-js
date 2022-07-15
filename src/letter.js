@@ -4,20 +4,20 @@
 import { createPolygon } from "./polygon";
 import { createPoint } from "./point";
 
-let getStrokeWidth = (box) => {
-  let s = Math.max(box.b().len(), box.c().len());
-  return s / 50.0;
-};
-
-let getStyle = (box) => {
-  return {
-    'stroke-width': getStrokeWidth(box),
-    'stroke': "green",
-    'fill': "none"
-  };
-};
-
 let createStyledPolygon = (pts) => {
+  let getStrokeWidth = (box) => {
+    let s = Math.max(box.b().len(), box.c().len());
+    return s / 80.0;
+  };  
+
+  let getStyle = (lens) => {
+    return {
+      'stroke-width': getStrokeWidth(lens.box),
+      'stroke': "green",
+      'fill': "none"
+    };
+  };  
+
   return {
     styleFn: getStyle,
     shape: createPolygon(pts)

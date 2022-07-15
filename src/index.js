@@ -29,7 +29,7 @@ function component() {
     let ne = turn(turn(flip(picture)));
     let sw = turn(turn(picture));
     let se = flip(picture);
-    // let fPict = createPicture(fLetter());
+    let fPict = createPicture(fLetter());
     let hPict = createPicture(hLetter());
     let ePict = createPicture(eLetter());
     let nPict = createPicture(nLetter());
@@ -39,12 +39,12 @@ function component() {
     let oPict = createPicture(oLetter());
     let fishPict = createPicture(simpleFish());
     let fish3Pict = createPicture(fancyFish());
-    let henderson = nonet(hPict, ePict, nPict, dPict, ePict, rPict, sPict, oPict, nPict);
+    let henderson = quartet(hPict, ePict, nPict, dPict, ePict, rPict, sPict, oPict, nPict);
     let georgePict = createPicture(george());
     //let rendering = column(row(hPict, ePict, nPict), row(dPict, ePict, rPict), row(sPict, oPict, nPict))(box);
     let hue = createHue("black");
     let lens = createLens(box, hue);
-    let rendering = ttileColor2(fish3Pict)(lens);
+    let rendering = fPict(lens);
     let mirrored = mirrorShapes(600, rendering);
     let childElements = mirrored.map(r => r.shape.toSvgElement(r.style));
     for (let child of childElements) {
