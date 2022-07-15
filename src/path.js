@@ -29,6 +29,19 @@ export const createCurveToCommand = (cp1, cp2, ep) => {
   });
 };
 
+export const createCloseCommand = () => {
+  return ({
+    what: "close",
+    command: "close",
+    transpose: (mapper) => {
+      return createCloseCommand();
+    },
+    toString: () => {
+      return `Z`;
+    }
+  });
+};
+
 export const createPath = (...commands) => {
   return ({
     what: "path",

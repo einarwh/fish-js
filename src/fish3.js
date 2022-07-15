@@ -1,6 +1,6 @@
 // @ts-check
 //
-import { createPath, createCurveToCommand, createMoveToCommand } from "./path";
+import { createPath, createCurveToCommand, createMoveToCommand, createCloseCommand } from "./path";
 import { createPoint } from "./point";
 
 let getStrokeWidth = (box) => {
@@ -20,6 +20,7 @@ let getOuterEyeStyle = (lens) => {
   return {
     'stroke-width': getStrokeWidth(lens.box),
     'stroke': getHighlightColor(lens.hue),
+    'stroke-linecap': "butt",
     'fill': "white"
   };
 };
@@ -32,6 +33,7 @@ let getHighlightStyle = (lens) => {
   return {
     'stroke-width': getStrokeWidth(lens.box),
     'stroke': getHighlightColor(lens.hue),
+    'stroke-linecap': "butt",
     'fill': "none"
   };
 };
@@ -50,6 +52,10 @@ let C = (x1, y1, x2, y2, x3, y3) => {
   return createCurveToCommand(createPoint(x1, y1), createPoint(x2, y2), createPoint(x3, y3));
 };
 
+let Z = () => {
+  return createCloseCommand();  
+};
+
 export const fancyFish = () => {
 
   let bodyPath = 
@@ -66,36 +72,40 @@ export const fancyFish = () => {
       C(0.163, 0.893, 0.104, 0.938, 0.000, 1.000),
       C(-0.042, 0.834, -0.056, 0.730, -0.032, 0.564),
       C(-0.132, 0.452, -0.194, 0.372, -0.250, 0.250),
-      C(-0.150, 0.150, -0.050, 0.050, 0.000, 0.000));
+      C(-0.150, 0.150, -0.050, 0.050, 0.000, 0.000),
+      Z());
 
   let leftOuterEyePath = 
     createPath(
       M(0.004, 0.800),
       C(0.040, 0.772, 0.068, 0.696, 0.074, 0.685),
       C(0.045, 0.660, 0.010, 0.617,-0.008, 0.592),
-      C(-0.017, 0.685, -0.012, 0.770, 0.004, 0.800));
+      C(-0.017, 0.685, -0.012, 0.770, 0.004, 0.800),
+      Z());
 
   let leftInnerEyePath = 
     createPath(
       M(0.018, 0.720),
       C(0.038, 0.708, 0.053, 0.684, 0.057, 0.674),
       C(0.035, 0.652, 0.010, 0.622, 0.008, 0.618),
-      C(0.005, 0.685, 0.010, 0.700, 0.018, 0.720));
-
+      C(0.005, 0.685, 0.010, 0.700, 0.018, 0.720),
+      Z());
 
   let rightOuterEyePath = 
     createPath(
       M(0.095, 0.870),
       C(0.160, 0.840, 0.200, 0.790, 0.205, 0.782),
       C(0.165, 0.760, 0.140, 0.740, 0.115, 0.715),
-      C(0.095, 0.775, 0.090, 0.830, 0.095, 0.870));
+      C(0.095, 0.775, 0.090, 0.830, 0.095, 0.870),
+      Z());
 
   let rightInnerEyePath = 
     createPath(
       M(0.128, 0.810),
       C(0.150, 0.805, 0.174, 0.783, 0.185, 0.774),
       C(0.154, 0.756, 0.139, 0.740, 0.132, 0.736),
-      C(0.126, 0.760, 0.122, 0.795, 0.128, 0.810));
+      C(0.126, 0.760, 0.122, 0.795, 0.128, 0.810),
+      Z());
 
   let mainSpinePath = 
     createPath(
