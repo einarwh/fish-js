@@ -43,8 +43,8 @@ function component() {
     let georgePict = createPicture(george());
     //let rendering = column(row(hPict, ePict, nPict), row(dPict, ePict, rPict), row(sPict, oPict, nPict))(box);
     let hue = createHue("black");
-    let lens = createLens(box, hue).change().change();
-    let rendering = squareLimitColor(4, fish3Pict)(lens);
+    let lens = createLens(box, hue);
+    let rendering = squareLimit(4, fish3Pict)(lens);
     let mirrored = mirrorShapes(600, rendering);
     let childElements = mirrored.map(r => r.shape.toSvgElement(r.style));
     for (let child of childElements) {
