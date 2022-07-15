@@ -4,27 +4,27 @@
 export const blank = (_) => { return []; }
 
 export const turn = (picture) => {
-  return (box) => {
-    return picture(box.turn());
+  return (lens) => {
+    return picture(lens.turn());
   };
 };
 
 export const flip = (picture) => {
-  return (box) => {
-    return picture(box.flip());
+  return (lens) => {
+    return picture(lens.flip());
   };
 };
 
 export const toss = (picture) => {
-  return (box) => {
-    return picture(box.toss());
+  return (lens) => {
+    return picture(lens.toss());
   };
 };
 
 export const aboveRatio = (m, n, p1, p2) => {
-  return (box) => {
+  return (lens) => {
     let f = m / (m + n);
-    let [top, bot] = box.splitVertically(f);
+    let [top, bot] = lens.splitVertically(f);
     return p1(top).concat(p2(bot));
   };
 };
@@ -34,9 +34,9 @@ export const above = (p1, p2) => {
 };
 
 export const besideRatio = (m, n, p1, p2) => {
-  return (box) => {
+  return (lens) => {
     let f = m / (m + n);
-    let [left, right] = box.splitHorizontally(f);
+    let [left, right] = lens.splitHorizontally(f);
     return p1(left).concat(p2(right));
   };
 };
@@ -77,15 +77,39 @@ export const nonet = (nw, nm, ne, mw, mm, me, sw, sm, se) => {
 }
 
 export const over = (p1, p2) => {
-    return (box) => {
-        return p1(box).concat(p2(box));
+    return (lens) => {
+        return p1(lens).concat(p2(lens));
     };
 };
+
+export const rehue = (p) => {
+    return (lens) => {
+        return p(lens.change());
+    };
+}
 
 export const ttile = (p) => {
     let pn = flip(toss(p));
     let pe = turn(turn(turn(pn)));
     return over(pe, over(pn, p));
+};
+
+let ttileColor = (p, rehueN, rehueE) => {
+    let pn = flip(toss(p));
+    let pe = turn(turn(turn(pn)));
+    return over(rehueE(pe), over(rehueN(pn), p));
+};
+
+export const ttileColor1 = (p) => {
+    let rehueN = (p) => rehue(p);
+    let rehueE = (p) => rehue(rehue(p));
+    return ttileColor(p, rehueN, rehueE);
+};
+
+export const ttileColor2 = (p) => {
+    let rehueN = (p) => rehue(rehue(p));
+    let rehueE = (p) => rehue(p);
+    return ttileColor(p, rehueN, rehueE);
 };
 
 export const utile = (p) => {
@@ -94,6 +118,36 @@ export const utile = (p) => {
     let ps = turn(pw);
     let pe = turn(ps);
     return over(pe, over(ps, over(pw, pn)));
+};
+
+let utileColor = (p, rehueN, rehueW, rehueS, rehueE) => {
+    let pn = flip(toss(p));
+    let pw = turn(pn);
+    let ps = turn(pw);
+    let pe = turn(ps);
+    return over(rehueE(pe), over(rehueS(ps), over(rehueW(pw), rehueN(pn))));
+};
+
+export const utileColor1 = (p) => {
+    let rehueNS = (p) => rehue(rehue(p));
+    let rehueWE = (p) => p;
+    return utileColor(p, rehueNS, rehueWE, rehueNS, rehueWE);
+};
+
+export const utileColor2 = (p) => {
+    let rehueN = (p) => p;
+    let rehueW = (p) => rehue(rehue(p));
+    let rehueS = rehue;
+    let rehueE = rehueW;
+    return utileColor(p, rehueN, rehueW, rehueS, rehueE);
+};
+
+export const utileColor3 = (p) => {
+    let rehueN = (p) => rehue(rehue(p));
+    let rehueW = (p) => p;
+    let rehueS = rehue;
+    let rehueE = rehueW;
+    return utileColor(p, rehueN, rehueW, rehueS, rehueE);
 };
 
 export const side = (n, p) => {
@@ -106,6 +160,27 @@ export const side = (n, p) => {
       };
 };
 
+let sideColor = (tt, rehueSW, rehueSE, n, p) => {
+    let aux = (n, p) => {
+        let t = tt(p);
+        let r = n == 1 ? blank : aux (n - 1, p);
+        return quartet(r, r, rehueSW(turn(t)), rehueSE(t));
+    } 
+    return aux(n, p);
+}; 
+
+export const sideColorNS = (n, p) => {
+    let rehueSW = (p) => p;
+    let rehueSE = rehue; 
+    return sideColor(ttileColor1, rehueSW, rehueSE, n, p);
+};
+
+export const sideColorWE = (n, p) => {
+    let rehueSW = (p) => rehue(rehue(p));
+    let rehueSE = rehue; 
+    return sideColor(ttileColor2, rehueSW, rehueSE, n, p);
+};
+
 export const corner = (n, p) => {
     if (n == 0) {
         return blank;
@@ -114,6 +189,25 @@ export const corner = (n, p) => {
         let s = side(n - 1, p);
         return quartet(c, s, turn(s), utile(p));
       };  
+};
+
+let cornerColor = (ut, side1, side2, n, p) => {
+    let u = ut(p);
+    let fn = (x) => {
+        let [c, ne, sw] = x == 1 
+            ? [ blank, blank, blank ] 
+            : [ fn(x - 1), side1(x - 1, p), side2(x - 1, p)];
+        return quartet(c, ne, turn(sw), u);
+    };
+    return fn(n);
+};
+
+export const cornerColorNWSE = (n, p) => {
+    return cornerColor(utileColor3, sideColorNS, sideColorWE, n, p);
+};
+
+export const cornerColorNESW = (n, p) => {
+    return cornerColor(utileColor2, sideColorWE, sideColorNS, n, p);
 };
 
 export const squareLimit = (n, p) => {
@@ -126,5 +220,18 @@ export const squareLimit = (n, p) => {
     let sm = turn(mw);
     let me = turn(sm);
     let mm = utile(p);
+    return nonet(nw, nm, ne, mw, mm, me, sw, sm, se);
+};
+
+export const squareLimitColor = (n, p) => {    
+    let nw = cornerColorNWSE(n, p);
+    let sw = turn(cornerColorNESW(n, p));
+    let se = turn(turn(nw));
+    let ne = turn(turn(sw));
+    let nm = sideColorNS(n, p);
+    let mw = turn(sideColorWE(n, p));
+    let sm = turn(turn(nm));
+    let me = turn(turn(mw));
+    let mm = utileColor1(p);
     return nonet(nw, nm, ne, mw, mm, me, sw, sm, se);
 };

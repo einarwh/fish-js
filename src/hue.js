@@ -7,10 +7,10 @@ export const createHue = (color) => {
     color: color,
     next: () => {
       switch (color) {
-        case "black": createHue("grey"); break;
-        case "grey": createHue("white"); break;
-        case "white": createHue("black"); break;
-        default: createHue(color);
+        case "black": return createHue("grey"); 
+        case "grey": return createHue("white"); 
+        case "white": return createHue("black");
+        default: return createHue(color);
       }
     }
   });

@@ -4,9 +4,11 @@ import { simpleFish } from "./fish";
 import { fancyFish } from "./fish3";
 import { createPicture } from "./magic";
 import { createBox } from "./box";
+import { createLens } from "./lens";
+import { createHue } from "./hue";
 import { createVector } from "./vector";
 import { mirrorShapes } from "./mirror";
-import { blank, turn, flip, toss, above, beside, quartet, row, column, nonet, over, ttile, utile, side, corner, squareLimit } from "./picture";
+import { blank, turn, flip, toss, above, beside, quartet, row, column, nonet, over, ttile, utile, side, corner, squareLimit, ttileColor1, ttileColor2, utileColor1, utileColor2, utileColor3, sideColorNS, sideColorWE, cornerColorNESW, cornerColorNWSE, squareLimitColor } from "./picture";
 
 function component() {
     //const element = document.createElement('div');
@@ -40,7 +42,9 @@ function component() {
     let henderson = nonet(hPict, ePict, nPict, dPict, ePict, rPict, sPict, oPict, nPict);
     let georgePict = createPicture(george());
     //let rendering = column(row(hPict, ePict, nPict), row(dPict, ePict, rPict), row(sPict, oPict, nPict))(box);
-    let rendering = side(3, fish3Pict)(box);
+    let hue = createHue("black");
+    let lens = createLens(box, hue).change().change();
+    let rendering = squareLimitColor(4, fish3Pict)(lens);
     let mirrored = mirrorShapes(600, rendering);
     let childElements = mirrored.map(r => r.shape.toSvgElement(r.style));
     for (let child of childElements) {

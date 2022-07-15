@@ -17,33 +17,39 @@ let getStrokeWidth = (box) => {
  * 
  */
 
-
-let getOuterEyeStyle = (box) => {
+let getInnerEyeStyle = (lens) => {
+  let color = lens.hue.color;
+  let fillColor = color == "white" ? "black" : color;
   return {
-    'stroke-width': getStrokeWidth(box),
-    'stroke': "white",
+    'stroke-width': getStrokeWidth(lens.box),
+    'stroke': getHighlightColor(lens.hue),
+    'fill': fillColor
+  };
+};
+
+let getOuterEyeStyle = (lens) => {
+  return {
+    'stroke-width': getStrokeWidth(lens.box),
+    'stroke': getHighlightColor(lens.hue),
     'fill': "white"
   };
 };
 
-let getHighlightStyle = (box) => {
+let getHighlightColor = (hue) => {
+  return hue.color == "white" ? "black" : "white";
+}
+
+let getHighlightStyle = (lens) => {
   return {
-    'stroke-width': getStrokeWidth(box),
-    'stroke': "white",
+    'stroke-width': getStrokeWidth(lens.box),
+    'stroke': getHighlightColor(lens.hue),
     'fill': "none"
   };
 };
 
-let getStyle = (box) => {
+let getStyle = (lens) => {
   return {
-    'fill': "blue"
-  };
-};
-
-let path = (...commands) => {
-  return {
-    styleFn: getStyle,
-    shape: createPath.apply(null, commands)
+    'fill': lens.hue.color
   };
 };
 
@@ -54,11 +60,6 @@ let M = (x, y) => {
 let C = (x1, y1, x2, y2, x3, y3) => {
   return createCurveToCommand(createPoint(x1, y1), createPoint(x2, y2), createPoint(x3, y3));
 };
-
-/**
- * 
-
- */
 
 export const fancyFish = () => {
 
@@ -175,9 +176,9 @@ export const fancyFish = () => {
   let shapes = 
     [ { styleFn: getStyle, shape: bodyPath } 
     , { styleFn: getOuterEyeStyle, shape: leftOuterEyePath }
-    , { styleFn: getStyle, shape: leftInnerEyePath } 
+    , { styleFn: getInnerEyeStyle, shape: leftInnerEyePath } 
     , { styleFn: getOuterEyeStyle, shape: rightOuterEyePath }
-    , { styleFn: getStyle, shape: rightInnerEyePath } 
+    , { styleFn: getInnerEyeStyle, shape: rightInnerEyePath } 
     , { styleFn: getHighlightStyle, shape: mainSpinePath } 
     , { styleFn: getHighlightStyle, shape: leftFinStemPath } 
     , { styleFn: getHighlightStyle, shape: rightFinStemPath } 

@@ -9,9 +9,9 @@ let getStrokeWidth = (box) => {
   return s / 80.0;
 };
 
-let getStyle = (box) => {
+let getStyle = (lens) => {
   return {
-    'stroke-width': getStrokeWidth(box),
+    'stroke-width': getStrokeWidth(lens.box),
     'stroke': "purple",
     'fill': "none"
   };

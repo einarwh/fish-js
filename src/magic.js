@@ -14,10 +14,12 @@ let createMapper = (box) => {
 };
 
 export const createPicture = (shapes) => {
-  return (box) => {
+  return (lens) => {
+    let box = lens.box;
+    let hue = lens.hue;
     let mapper = createMapper(box);
     let styled = shapes.map(s => { 
-      return { style: s.styleFn(box), shape: s.shape.transpose(mapper) };
+      return { style: s.styleFn(lens), shape: s.shape.transpose(mapper) };
     });
     return styled;
   };
