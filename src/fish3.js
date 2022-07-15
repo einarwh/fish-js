@@ -8,21 +8,10 @@ let getStrokeWidth = (box) => {
   return s / 80.0;
 };
 
-/**
- * let 
-    stroke = if isOuterEye name then Just (getEyeLiner sw hue) else Nothing
-    fill = Just { fillColor = getColor name hue }
-  in 
-    { stroke = stroke, fill = fill }
- * 
- */
-
 let getInnerEyeStyle = (lens) => {
   let color = lens.hue.color;
   let fillColor = color == "white" ? "black" : color;
   return {
-    'stroke-width': getStrokeWidth(lens.box),
-    'stroke': getHighlightColor(lens.hue),
     'fill': fillColor
   };
 };
