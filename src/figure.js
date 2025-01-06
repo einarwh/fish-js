@@ -10,10 +10,11 @@ let getStrokeWidth = (box) => {
 };
 
 let getStyle = (lens) => {
+  var randomColor = Math.floor(Math.random()*16777215).toString(16);
   return {
     'stroke-width': getStrokeWidth(lens.box),
     'stroke': "purple",
-    'fill': "none"
+    'fill': randomColor
   };
 };
 

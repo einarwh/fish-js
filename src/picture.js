@@ -235,3 +235,11 @@ export const squareLimitColor = (n, p) => {
     let mm = utileColor1(p);
     return nonet(nw, nm, ne, mw, mm, me, sw, sm, se);
 };
+
+export const sedecim = (p00, p01, p02, p03, p10, p11, p12, p13, p20, p21, p22, p23, p30, p31, p32, p33) => {
+  return column(
+    row(p00, p01, p02, p03), 
+    row(p10, p11, p12, p13), 
+    row(p20, p21, p22, p23), 
+    row(p30, p31, p32, p33)); 
+};
